@@ -28,11 +28,4 @@ public class ZoneManagers extends JavaPlugin {
     public Logger getPluginLogger() {
         return logger;
     }
-}
-
-class ZoneCommandExecutor implements org.bukkit.command.CommandExecutor {
-    public boolean onCommand(org.bukkit.command.CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        sender.sendMessage("Zone command stub");
-        return true;
-    }
 } 

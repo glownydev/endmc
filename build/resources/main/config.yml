@@ -1,0 +1,13 @@
+database:
+  type: sqlite
+  file: zones.db
+flags:
+  pvp: false
+  build: true
+  entry-effect: SPEED
+  enter-command: "say %player% entre dans %zone%"
+presets:
+  default:
+    pvp: false
+    build: true
+    entry-effect: SPEED 
