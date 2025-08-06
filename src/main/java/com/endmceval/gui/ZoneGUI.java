@@ -1,5 +1,8 @@
-package com.endmceval;
+package com.endmceval.gui;
 
+import com.endmceval.core.ZoneManagers;
+import com.endmceval.managers.ZoneManager;
+import com.endmceval.models.Zone;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,10 +16,12 @@ import java.util.List;
 
 public class ZoneGUI implements Listener {
     private ZoneManager zoneManager;
+    
     public ZoneGUI(ZoneManager zoneManager) {
         this.zoneManager = zoneManager;
         Bukkit.getPluginManager().registerEvents(this, ZoneManagers.getInstance());
     }
+    
     public void openZoneList(Player player) {
         List<Zone> zones = zoneManager.getZones();
         Inventory inv = Bukkit.createInventory(null, 27, "Zones");
@@ -31,6 +36,7 @@ public class ZoneGUI implements Listener {
         }
         player.openInventory(inv);
     }
+    
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (!e.getView().getTitle().equals("Zones")) return;
@@ -47,4 +53,4 @@ public class ZoneGUI implements Listener {
             player.sendMessage(ZoneManagers.messageManager.get("gui_flags").replace("%flags%", zone.getFlags().toString()));
         }
     }
-} 
+}

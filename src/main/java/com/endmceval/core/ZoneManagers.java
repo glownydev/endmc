@@ -1,5 +1,9 @@
-package com.endmceval;
+package com.endmceval.core;
 
+import com.endmceval.commands.ZoneCommandExecutor;
+import com.endmceval.database.ZoneDatabase;
+import com.endmceval.managers.MessageManager;
+import com.endmceval.managers.ZoneManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 
@@ -9,6 +13,7 @@ public class ZoneManagers extends JavaPlugin {
     public static ZoneManager zoneManager;
     public static ZoneDatabase zoneDatabase;
     public static MessageManager messageManager;
+    
     public void onEnable() {
         instance = this;
         logger = null;
@@ -19,13 +24,16 @@ public class ZoneManagers extends JavaPlugin {
         getCommand("zone").setExecutor(new ZoneCommandExecutor());
         getLogger().info("ZoneManagers enabled");
     }
+    
     public void onDisable() {
         getLogger().info("ZoneManagers disabled");
     }
+    
     public static ZoneManagers getInstance() {
         return instance;
     }
+    
     public Logger getPluginLogger() {
         return logger;
     }
-} 
+}

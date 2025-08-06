@@ -1,17 +1,20 @@
-package com.endmceval;
+package com.endmceval.commands;
 
+import com.endmceval.core.ZoneManagers;
+import com.endmceval.gui.ZoneGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.util.List;
 
 public class ZoneCommandExecutor implements CommandExecutor {
     private ZoneGUI zoneGUI;
+    
     public ZoneCommandExecutor() {
         this.zoneGUI = new ZoneGUI(ZoneManagers.zoneManager);
         reloadZones();
     }
+    
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ZoneManagers.messageManager.get("no_permission"));
@@ -30,9 +33,10 @@ public class ZoneCommandExecutor implements CommandExecutor {
         zoneGUI.openZoneList(player);
         return true;
     }
+    
     private void reloadZones() {
         ZoneManagers.zoneDatabase.loadZonesAsync().thenAccept(zones -> {
             ZoneManagers.zoneManager.setZones(zones);
         });
     }
-} 
+}

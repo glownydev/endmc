@@ -1,5 +1,6 @@
-package com.endmceval;
+package com.endmceval.database;
 
+import com.endmceval.models.Zone;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.*;
@@ -8,6 +9,7 @@ import java.util.*;
 
 public class ZoneDatabase {
     private HikariDataSource ds;
+    
     public ZoneDatabase(String file) {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:sqlite:" + file);
@@ -18,6 +20,7 @@ public class ZoneDatabase {
         } catch (SQLException e) {
         }
     }
+    
     public CompletableFuture<List<Zone>> loadZonesAsync() {
         return CompletableFuture.supplyAsync(() -> {
             List<Zone> zones = new ArrayList<>();
@@ -40,6 +43,7 @@ public class ZoneDatabase {
             return zones;
         });
     }
+    
     public CompletableFuture<Void> saveZoneAsync(Zone zone) {
         return CompletableFuture.runAsync(() -> {
             try (Connection c = ds.getConnection(); PreparedStatement ps = c.prepareStatement("REPLACE INTO zones (id, name, flags, priority) VALUES (?, ?, ?, ?);")) {
@@ -56,7 +60,8 @@ public class ZoneDatabase {
             }
         });
     }
+    
     public void close() {
         ds.close();
     }
-} 
+}
