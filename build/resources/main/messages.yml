@@ -1,8 +1,0 @@
-prefix: "&7[&aZoneManager&7] "
-no_permission: "&cYou don't have permission."
-zone_enter: "&aYou entered zone &e%zone%&a!"
-zone_leave: "&cYou left zone &e%zone%&c!"
-reload_success: "&aZones reloaded successfully."
-error: "&cAn error occurred."
-gui_no_permission: "&cYou can't edit this zone."
-gui_flags: "&eFlags: %flags%" 
