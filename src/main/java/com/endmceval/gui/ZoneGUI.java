@@ -29,7 +29,7 @@ public class ZoneGUI implements Listener {
     }
     
     public void openZoneList(Player player) {
-        List<Zone> zones = this.zoneManager.getAllZones();
+        List<Zone> zones = this.zoneManager.getZones();
         Inventory inventory = Bukkit.createInventory(null, GUI_SIZE, ZONE_GUI_TITLE);
         
         int slot = 0;
@@ -95,7 +95,7 @@ public class ZoneGUI implements Listener {
             return;
         }
         
-        List<Zone> zones = this.zoneManager.getAllZones();
+        List<Zone> zones = this.zoneManager.getZones();
         
         if (slot < zones.size()) {
             Zone zone = zones.get(slot);

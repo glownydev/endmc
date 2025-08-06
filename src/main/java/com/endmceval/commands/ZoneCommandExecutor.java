@@ -44,22 +44,17 @@ public class ZoneCommandExecutor implements CommandExecutor {
         
         ZoneManagers.zoneDatabase.loadZonesAsync()
             .thenAccept(zones -> {
-                ZoneManagers.zoneManager.loadZones(zones);
+                ZoneManagers.zoneManager.setZones(zones);
                 player.sendMessage(ZoneManagers.messageManager.get("reload_success"));
             })
             .exceptionally(throwable -> {
                 player.sendMessage("§cError occurred while reloading zones: " + throwable.getMessage());
-                ZoneManagers.getInstance().getLogger().severe("Failed to reload zones: " + throwable.getMessage());
                 return null;
             });
     }
     
     private void loadInitialZones() {
         ZoneManagers.zoneDatabase.loadZonesAsync()
-            .thenAccept(zones -> ZoneManagers.zoneManager.loadZones(zones))
-            .exceptionally(throwable -> {
-                ZoneManagers.getInstance().getLogger().severe("Failed to load initial zones: " + throwable.getMessage());
-                return null;
-            });
+            .thenAccept(zones -> ZoneManagers.zoneManager.setZones(zones));
     }
 }

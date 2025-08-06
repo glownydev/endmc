@@ -2,88 +2,62 @@ package com.endmceval.managers;
 
 import com.endmceval.models.Zone;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ZoneManager {
     
-    private final List<Zone> zones;
-    private final Map<Integer, Zone> zoneCache;
+    private List<Zone> zones;
+    private Map<Integer, Zone> zoneCache;
     
     public ZoneManager() {
-        this.zones = Collections.synchronizedList(new ArrayList<>());
-        this.zoneCache = new ConcurrentHashMap<>();
+        zones = new ArrayList<>();
+        zoneCache = new HashMap<>();
     }
     
-    public void loadZones(List<Zone> newZones) {
-        this.zones.clear();
-        this.zoneCache.clear();
+    public void setZones(List<Zone> newZones) {
+        zones.clear();
+        zoneCache.clear();
         
         if (newZones != null) {
-            this.zones.addAll(newZones);
+            zones.addAll(newZones);
             for (Zone zone : newZones) {
-                this.zoneCache.put(zone.getId(), zone);
+                zoneCache.put(zone.getId(), zone);
             }
         }
     }
     
-    public List<Zone> getAllZones() {
-        return new ArrayList<>(this.zones);
+    public List<Zone> getZones() {
+        return zones;
     }
     
     public void addZone(Zone zone) {
-        if (zone != null && !this.zones.contains(zone)) {
-            this.zones.add(zone);
-            this.zoneCache.put(zone.getId(), zone);
-        }
+        zones.add(zone);
+        zoneCache.put(zone.getId(), zone);
     }
     
-    public boolean removeZone(Zone zone) {
-        if (zone != null) {
-            this.zoneCache.remove(zone.getId());
-            return this.zones.remove(zone);
-        }
-        return false;
+    public void removeZone(Zone zone) {
+        zones.remove(zone);
+        zoneCache.remove(zone.getId());
     }
     
     public Zone getZoneById(int id) {
-        return this.zoneCache.get(id);
+        return zoneCache.get(id);
     }
     
     public Zone getHighestPriorityZone(String playerName, int x, int y, int z) {
-        Zone highestZone = null;
-        int maxPriority = Integer.MIN_VALUE;
+        Zone result = null;
+        int maxPriority = -1;
         
-        for (Zone zone : this.zones) {
-            if (isPlayerInZone(playerName, x, y, z, zone) && zone.getPriority() > maxPriority) {
+        for (Zone zone : zones) {
+            if (zone.getPriority() > maxPriority) {
                 maxPriority = zone.getPriority();
-                highestZone = zone;
+                result = zone;
             }
         }
         
-        return highestZone;
+        return result;
     }
     
     public List<Zone> getZonesAt(int x, int y, int z) {
-        List<Zone> applicableZones = new ArrayList<>();
-        
-        for (Zone zone : this.zones) {
-            if (isLocationInZone(x, y, z, zone)) {
-                applicableZones.add(zone);
-            }
-        }
-        
-        return applicableZones;
-    }
-    
-    private boolean isPlayerInZone(String playerName, int x, int y, int z, Zone zone) {
-        return isLocationInZone(x, y, z, zone);
-    }
-    
-    private boolean isLocationInZone(int x, int y, int z, Zone zone) {
-        return true;
-    }
-    
-    public int getZoneCount() {
-        return this.zones.size();
+        return zones;
     }
 }
