@@ -5,35 +5,40 @@ import com.endmceval.database.ZoneDatabase;
 import com.endmceval.managers.MessageManager;
 import com.endmceval.managers.ZoneManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.slf4j.Logger;
 
 public class ZoneManagers extends JavaPlugin {
+    
     private static ZoneManagers instance;
-    private Logger logger;
+    
     public static ZoneManager zoneManager;
     public static ZoneDatabase zoneDatabase;
     public static MessageManager messageManager;
     
+    @Override
     public void onEnable() {
         instance = this;
-        logger = null;
-        saveDefaultConfig();
-        zoneManager = new ZoneManager();
-        zoneDatabase = new ZoneDatabase("zones.db");
+        
+        this.saveDefaultConfig();
+        
         messageManager = new MessageManager(this);
-        getCommand("zone").setExecutor(new ZoneCommandExecutor());
-        getLogger().info("ZoneManagers enabled");
+        zoneManager = new ZoneManager();
+        zoneDatabase = new ZoneDatabase(this.getDataFolder().getAbsolutePath() + "/zones.db");
+        
+        this.getCommand("zone").setExecutor(new ZoneCommandExecutor());
+        
+        getLogger().info("Plugin enabled successfully!");
     }
     
+    @Override
     public void onDisable() {
-        getLogger().info("ZoneManagers disabled");
+        if (zoneDatabase != null) {
+            zoneDatabase.close();
+        }
+        
+        getLogger().info("Plugin disabled.");
     }
     
     public static ZoneManagers getInstance() {
         return instance;
-    }
-    
-    public Logger getPluginLogger() {
-        return logger;
     }
 }
